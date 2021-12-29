@@ -1,14 +1,14 @@
-
-
 using System;
 using System.CommandLine;
 using System.Diagnostics;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using Microsoft.Win32;
 
-public class WinFetch : IFetch
+[SupportedOSPlatform("windows")]
+public class WinSystemInfo : ISystemInfo
 {
 
     public static Dictionary<string, string> sysInfo = new Dictionary<string, string>() {
@@ -18,13 +18,93 @@ public class WinFetch : IFetch
         {"Motherboard", Motherboard},
         {"Uptime", Uptime},
         {"Shell", Shell},
-        {"Resolution", Resolution}
+        {"Resolution", Resolution},
+        {"Terminal", Terminal},
+        {"CPU", CPU},
+        {"GPU", GPU},
+        {"Memory", Memory},
+        {"Disk", Disk}
     };
     public void Fetch(string[] args)
     {
         foreach (var kv in sysInfo)
         {
             Console.WriteLine($"{kv.Key}: {kv.Value}");
+        }
+    }
+    static string Disk
+    {
+        get
+        {
+            ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * from Win32_LogicalDisk");
+            foreach (ManagementObject mo in mos.Get())
+            {
+                if (mo["Size"] is not null && mo["FreeSpace"] is not null)
+                {
+                    double total = Convert.ToDouble(mo["Size"]);
+                    double free = Convert.ToDouble(mo["FreeSpace"]);
+                    double used = total - free;
+                    return $"{used / 1024 / 1024 / 1024:0.00} GB / {total / 1024 / 1024 / 1024:0.00} GB";
+                }
+            }
+            return "";
+        }
+    }
+    static string Memory
+    {
+        get
+        {
+            ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * from Win32_OperatingSystem");
+            ManagementObjectCollection moc = mos.Get();
+            foreach (ManagementObject mo in moc)
+            {
+                if (mo["TotalVisibleMemorySize"] is not null && mo["FreePhysicalMemory"] is not null)
+                {
+                    double total = Convert.ToDouble(mo["TotalVisibleMemorySize"]);
+                    double free = Convert.ToDouble(mo["FreePhysicalMemory"]);
+                    double used = total - free;
+                    return $"{used / 1024 / 1024:0.00} MB / {total / 1024 / 1024:0.00} MB";
+                }
+            }
+            return "";
+        }
+    }
+    static string GPU
+    {
+        get
+        {
+
+            ManagementObjectSearcher mos = new ManagementObjectSearcher("Select * from Win32_VideoController");
+            foreach (ManagementObject mo in mos.Get())
+            {
+                if (mo["Name"] != null)
+                {
+                    return mo["Name"].ToString()!;
+                }
+            }
+            return "";
+        }
+    }
+    static string CPU
+    {
+        get
+        {
+            ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
+            foreach (ManagementObject mo in mos.Get())
+            {
+                if (mo is not null && mo["Name"] is not null)
+                {
+                    return mo["Name"].ToString()!;
+                }
+            }
+            return "";
+        }
+    }
+    static string Terminal
+    {
+        get
+        {
+            return Environment.GetEnvironmentVariable("ComSpec")!;
         }
     }
     static string Resolution

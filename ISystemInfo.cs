@@ -1,4 +1,4 @@
-public interface IFetch
+public interface ISystemInfo
 {
     void Fetch(string[] args);
 }
