@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using Microsoft.Win32;
 using Pastel;
-
 [SupportedOSPlatform("windows")]
 public class WinSystemInfo : ISystemInfo
 {
@@ -201,7 +200,7 @@ public class WinSystemInfo : ISystemInfo
         }
 
     }
-    static string OS
+    public static string OS
     {
         get
         {
