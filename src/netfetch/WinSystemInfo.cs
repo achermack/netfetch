@@ -14,8 +14,10 @@ using Pastel;
 [SupportedOSPlatform("windows")]
 public class WinSystemInfo : ISystemInfo
 {
-
-    public static Dictionary<string, string> sysInfo = new Dictionary<string, string>() {
+    public Dictionary<string, string> sysInfo { get; }
+    public WinSystemInfo()
+    {
+        sysInfo = new Dictionary<string, string>() {
         {"OS", OS},
         {"Host", Host},
         {"Kernel", Kernel},
@@ -27,10 +29,14 @@ public class WinSystemInfo : ISystemInfo
         {"CPU", CPU},
         {"GPU", GPU},
         {"Memory", Memory},
-        {"Disk", Disk}
+        {"Disk", Disk},
+        {"ColorBlock", ColorBlock}
     };
+    }
 
-    static Dictionary<string, string> MakeSystemManagementQuery(string ClassName, params string[] properties)
+
+
+    public Dictionary<string, string> MakeSystemManagementQuery(string ClassName, params string[] properties)
     {
         Dictionary<string, string> result = new Dictionary<string, string>();
         ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM " + ClassName);
@@ -46,24 +52,89 @@ public class WinSystemInfo : ISystemInfo
         }
         return result;
     }
+    public string logo
+    {
+        get
+        {
+            switch (OS)
+            {
+                case string a when a.Contains("Windows 11"):
+                    return @"
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll
+    lllllllllllllll   lllllllllllllll";
+                case string b when b.Contains("Windows 10") || b.Contains("Windows 8.1") || b.Contains("Windows 8") || b.Contains("Windows 7"):
+                    return @"
+                        ....,,:;+ccllll
+            ...,,+:;  cllllllllllllllllll
+    ,cclllllllllll  lllllllllllllllllll
+    llllllllllllll  lllllllllllllllllll
+    llllllllllllll  lllllllllllllllllll
+    llllllllllllll  lllllllllllllllllll
+    llllllllllllll  lllllllllllllllllll
+    llllllllllllll  lllllllllllllllllll
+                                        
+    llllllllllllll  lllllllllllllllllll
+    llllllllllllll  lllllllllllllllllll
+    llllllllllllll  lllllllllllllllllll
+    llllllllllllll  lllllllllllllllllll
+    llllllllllllll  lllllllllllllllllll
+    ``'ccllllllllll  lllllllllllllllllll
+            ``' \\*::  :ccllllllllllllllll
+                            ````````''*::cl
+                                        ````";
+                case string c when c.Contains("Windows 7") || c.Contains("Windows Vista") || c.Contains("Windows XP"):
+                    return @"
+         ,.=:!!t3Z3z.,               
+        :tt:::tt333EE3               
+        Et:::ztt33EEE  ${e}[32m@Ee.,      ..,
+       ;tt:::tt333EE7 ${e}[32m;EEEEEEttttt33#
+      :Et:::zt333EEQ. ${e}[32mSEEEEEttttt33QL
+      it::::tt333EEF ${e}[32m@EEEEEEttttt33F 
+     ;3=*^``````'*4EEV ${e}[32m:EEEEEEttttt33@. 
+     ,.=::::it=., ${e}[31m`` ${e}[32m@EEEEEEtttz33QF  
+    ;::::::::zt33)   ${e}[32m'4EEEtttji3P*   
+   :t::::::::tt33 ${e}[33m:Z3z..  ${e}[32m```` ${e}[33m,..g.   
+   i::::::::zt33F ${e}[33mAEEEtttt::::ztF    
+  ;:::::::::t33V ${e}[33m;EEEttttt::::t3     
+  E::::::::zt33L ${e}[33m@EEEtttt::::z3F     
+ {3=*^``````'*4E3) ${e}[33m;EEEtttt:::::tZ``     
+             `` ${e}[33m:EEEEtttt::::z7       
+                 'VEzjt:;;z>*``                       ";
 
-    string logo = @"
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
+                default:
+                    return "";
+            }
 
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    lllllllllllllll   lllllllllllllll
-    ";
+        }
+    }
+
+    public string ColorBlock
+    {
+        get
+        {
+            string s = "";
+            foreach (var color in Enum.GetNames(typeof(ConsoleColor)))
+            {
+                s += "███".Pastel(Color.FromName(color));
+            }
+            return s;
+        }
+    }
+
+
 
     public void Fetch(string[] args)
     {
@@ -80,6 +151,12 @@ public class WinSystemInfo : ISystemInfo
                 {
                     Console.Write("\t\t\t\t");
                 }
+                if (kvp.Key.Equals("ColorBlock"))
+                {
+                    Console.WriteLine($"{line.Pastel(Color.DarkCyan)}\t {kvp.Value}");
+                    index++;
+                    continue;
+                }
                 Console.WriteLine($"{line.Pastel(Color.DarkCyan)}\t {kvp.Key.Pastel(Color.Goldenrod)}: {kvp.Value}");
             }
             catch (Exception e)
@@ -91,7 +168,7 @@ public class WinSystemInfo : ISystemInfo
         }
 
     }
-    static string Disk
+    public string Disk
     {
         get
         {
@@ -102,7 +179,7 @@ public class WinSystemInfo : ISystemInfo
             return $"{used / 1024 / 1024 / 1024:0.00} GB / {total / 1024 / 1024 / 1024:0.00} GB";
         }
     }
-    static string Memory
+    public string Memory
     {
         get
         {
@@ -113,7 +190,7 @@ public class WinSystemInfo : ISystemInfo
             return $"{used / 1024 / 1024:0.00} MB / {total / 1024 / 1024:0.00} MB";
         }
     }
-    static string GPU
+    public string GPU
     {
         get
         {
@@ -121,7 +198,7 @@ public class WinSystemInfo : ISystemInfo
             return gpuProps["Name"];
         }
     }
-    static string CPU
+    public string CPU
     {
         get
         {
@@ -129,14 +206,14 @@ public class WinSystemInfo : ISystemInfo
             return cpuProps["Name"];
         }
     }
-    static string Terminal
+    public string Terminal
     {
         get
         {
             return Environment.GetEnvironmentVariable("ComSpec")!;
         }
     }
-    static string Resolution
+    public string Resolution
     {
         get
         {
@@ -145,7 +222,7 @@ public class WinSystemInfo : ISystemInfo
             return $"{resProps["CurrentHorizontalResolution"]}x{resProps["CurrentVerticalResolution"]}";
         }
     }
-    static string Shell
+    public string Shell
     {
         get
         {
@@ -167,7 +244,7 @@ public class WinSystemInfo : ISystemInfo
         }
     }
 
-    static string Uptime
+    public string Uptime
     {
         get
         {
@@ -176,7 +253,7 @@ public class WinSystemInfo : ISystemInfo
     }
 
 
-    static string Motherboard
+    public string Motherboard
     {
         get
         {
@@ -185,14 +262,14 @@ public class WinSystemInfo : ISystemInfo
         }
     }
 
-    static string Kernel
+    public string Kernel
     {
         get
         {
             return Environment.OSVersion.Version.ToString();
         }
     }
-    static string Host
+    public string Host
     {
         get
         {
@@ -200,7 +277,7 @@ public class WinSystemInfo : ISystemInfo
         }
 
     }
-    public static string OS
+    public string OS
     {
         get
         {

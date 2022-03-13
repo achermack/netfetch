@@ -11,7 +11,7 @@ public class ISystemInfoTests
     [Fact]
     public void Test_OS_Contains_Windows()
     {
-        Assert.Contains("Windows", WinSystemInfo.OS);
+        Assert.Contains("Windows", new WinSystemInfo().OS);
     }
 
 }
