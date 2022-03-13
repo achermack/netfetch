@@ -14,5 +14,10 @@ netfetch is written with .NET 6, so I intend to fully support other operating sy
   - [ ] Other
 - [ ] macOS
 
+## Installation
+Grab the latest release from nuget:
+```
+dotnet tool install --global netfetch
+```
 
 
