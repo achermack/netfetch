@@ -8,15 +8,5 @@ namespace netfetch.util
             return string.Join(", ", timeSpanStrings.Where(x => !string.IsNullOrWhiteSpace(x)));
         }
 
-        public static void Out(this string str)
-        {
-            Console.WriteLine(str);
-        }
-
-        public static void Write(this string str)
-        {
-            Console.Write(str);
-        }
-
     }
 }

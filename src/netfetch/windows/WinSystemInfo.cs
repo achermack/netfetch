@@ -119,38 +119,28 @@ namespace netfetch.Windows
 
             }
         }
-
-        public override void Fetch(string[] args)
+        public override Color LogoColor
         {
-            string[] LogoLines = Logo.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            int offset = (LogoLines.Length - SystemInformation.Count) / 2;
-            int index = 0 - offset;
-            foreach (string LogoLine in LogoLines)
+            get
             {
-                try
-                {
-                    var kvp = SystemInformation.ElementAt(index);
-                    if (String.IsNullOrWhiteSpace(LogoLine))
-                    {
-                        "\t\t\t\t".Write();
-                    }
-                    if (kvp.Key.Equals("ColorBlock"))
-                    {
-                        $"{LogoLine.Pastel(Color.DarkCyan)}\t {kvp.Value}".Out();
-                        index++;
-                        continue;
-                    }
-                    $"{LogoLine.Pastel(Color.DarkCyan)}\t [{index}] {kvp.Key.Pastel(Color.Goldenrod)}: {kvp.Value}".Out();
-
-                }
-                catch (Exception exc)
-                {
-                    // exc.Message.Out();
-                    $"{LogoLine.Pastel(Color.DarkCyan)}".Out();
-                }
-                index++;
+                return Color.DarkCyan;
             }
+        }
 
+        public override Color PrimaryColor
+        {
+            get
+            {
+                return Color.Goldenrod;
+            }
+        }
+
+        public override Color SecondaryColor
+        {
+            get
+            {
+                return Color.WhiteSmoke;
+            }
         }
 
         private string Disk
