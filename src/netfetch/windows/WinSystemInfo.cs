@@ -22,7 +22,7 @@ namespace netfetch.Windows
         {"Motherboard", Motherboard},
         {"Uptime", Uptime},
         {"Shell", Shell},
-        {"Resolution", Resolution},
+        {"Res", Resolution},
         {"Terminal", Terminal},
         {"CPU", CPU},
         {"GPU", GPU},
@@ -143,8 +143,9 @@ namespace netfetch.Windows
                     $"{LogoLine.Pastel(Color.DarkCyan)}\t {kvp.Key.Pastel(Color.Goldenrod)}: {kvp.Value}".Out();
 
                 }
-                catch
+                catch (Exception exc)
                 {
+                    exc.Message.Out();
                     $"{LogoLine.Pastel(Color.DarkCyan)}".Out();
                 }
                 index++;
