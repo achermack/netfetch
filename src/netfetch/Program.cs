@@ -10,7 +10,7 @@ using netfetch.Windows;
 var cmd = new RootCommand("netfetch");
 cmd.Handler = CommandHandler.Create(HandleFetch);
 
-cmd.Invoke(args);
+cmd.InvokeAsync(args);
 
 static void HandleFetch(string[] args)
 {
