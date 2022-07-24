@@ -140,12 +140,12 @@ namespace netfetch.Windows
                         index++;
                         continue;
                     }
-                    $"{LogoLine.Pastel(Color.DarkCyan)}\t {kvp.Key.Pastel(Color.Goldenrod)}: {kvp.Value}".Out();
+                    $"{LogoLine.Pastel(Color.DarkCyan)}\t [{index}] {kvp.Key.Pastel(Color.Goldenrod)}: {kvp.Value}".Out();
 
                 }
                 catch (Exception exc)
                 {
-                    exc.Message.Out();
+                    // exc.Message.Out();
                     $"{LogoLine.Pastel(Color.DarkCyan)}".Out();
                 }
                 index++;
