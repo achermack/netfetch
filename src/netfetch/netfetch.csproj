@@ -10,7 +10,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup>
-    <PackageId>NuGet.Workflow</PackageId>
+    <PackageId>netfetch</PackageId>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/achermack/netfetch</RepositoryUrl>
   </PropertyGroup>
