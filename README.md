@@ -2,7 +2,7 @@
 netfetch is a cross-platform system information tool, inspired by [neofetch](https://github.com/dylanaraps/neofetch).
 
 
-![netfetch](netfetch.png)
+![netfetch](https://raw.githubusercontent.com/achermack/netfetch/main/netfetch.png)
 
 ## Supported platforms
 netfetch is written with .NET 6, so I intend to fully support other operating systems
