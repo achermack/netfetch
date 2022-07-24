@@ -22,7 +22,6 @@ static void HandleFetch(string[] args)
     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
     {
         WindowsHandleFetch(args);
-        return;
     }
 }
 
