@@ -1,10 +1,11 @@
+using System.Collections.ObjectModel;
 using System.Drawing;
 using Pastel;
 namespace netfetch.util
 {
     public abstract class SystemInfo
     {
-        public abstract Dictionary<string, string> SystemInformation { get; }
+        public abstract ReadOnlyDictionary<string, string> SystemInformation { get; }
         protected readonly string Template = "{0,-60} {1,-30}";
         public void Fetch(string[] args)
         {

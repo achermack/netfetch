@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.CommandLine;
 using System.Diagnostics;
 using System.Drawing;
@@ -12,24 +13,27 @@ namespace netfetch.Windows
     [SupportedOSPlatform("Windows")]
     public class WinSystemInfo : SystemInfo
     {
-        public override Dictionary<string, string> SystemInformation { get; }
+        public override ReadOnlyDictionary<string, string> SystemInformation { get; }
         public WinSystemInfo()
         {
-            SystemInformation = new Dictionary<string, string>() {
-        {"OS", OS},
-        {"Host", Host},
-        {"Kernel", Kernel},
-        {"Motherboard", Motherboard},
-        {"Uptime", Uptime},
-        {"Shell", Shell},
-        {"Res", Resolution},
-        {"Terminal", Terminal},
-        {"CPU", CPU},
-        {"GPU", GPU},
-        {"Memory", Memory},
-        {"Disk", Disk},
-        {"ColorBlock", ColorBlock}
-    };
+            SystemInformation = new ReadOnlyDictionary<string, string>(
+                new Dictionary<string, string>()
+                {
+                    {"OS", OS},
+                    {"Host", Host},
+                    {"Kernel", Kernel},
+                    {"Motherboard", Motherboard},
+                    {"Uptime", Uptime},
+                    {"Shell", Shell},
+                    {"Res", Resolution},
+                    {"Terminal", Terminal},
+                    {"CPU", CPU},
+                    {"GPU", GPU},
+                    {"Memory", Memory},
+                    {"Disk", Disk},
+                    {"ColorBlock", ColorBlock}
+                }
+            );
         }
 
         private Dictionary<string, string> MakeSystemManagementQuery(string ClassName, params string[] properties)
