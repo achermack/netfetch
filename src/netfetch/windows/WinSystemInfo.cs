@@ -32,8 +32,6 @@ namespace netfetch.Windows
     };
         }
 
-
-
         private Dictionary<string, string> MakeSystemManagementQuery(string ClassName, params string[] properties)
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
@@ -119,29 +117,14 @@ namespace netfetch.Windows
 
             }
         }
-        public override Color LogoColor
-        {
-            get
-            {
-                return Color.DarkCyan;
-            }
-        }
+        public override Color LogoColor => Color.DarkCyan;
 
-        public override Color PrimaryColor
-        {
-            get
-            {
-                return Color.Goldenrod;
-            }
-        }
 
-        public override Color SecondaryColor
-        {
-            get
-            {
-                return Color.WhiteSmoke;
-            }
-        }
+        public override Color PrimaryColor => Color.Goldenrod;
+
+
+        public override Color SecondaryColor => Color.GhostWhite;
+
 
         private string Disk
         {
