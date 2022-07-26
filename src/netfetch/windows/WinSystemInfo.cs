@@ -25,7 +25,7 @@ namespace netfetch.Windows
                     {"Motherboard", Motherboard},
                     {"Uptime", Uptime},
                     {"Shell", Shell},
-                    {"Res", Resolution},
+                    {"Resolution", Resolution},
                     {"Terminal", Terminal},
                     {"CPU", CPU},
                     {"GPU", GPU},
@@ -224,21 +224,10 @@ namespace netfetch.Windows
             }
         }
 
-        private string Kernel
-        {
-            get
-            {
-                return Environment.OSVersion.Version.ToString();
-            }
-        }
-        private string Host
-        {
-            get
-            {
-                return System.Environment.MachineName;
-            }
+        private string Kernel => Environment.OSVersion.Version.ToString();
 
-        }
+        private string Host => System.Environment.MachineName;
+
         private string OS
         {
             get
