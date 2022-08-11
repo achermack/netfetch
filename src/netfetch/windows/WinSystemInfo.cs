@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.CommandLine;
 using System.Diagnostics;
 using System.Drawing;
@@ -12,27 +13,28 @@ namespace netfetch.Windows
     [SupportedOSPlatform("Windows")]
     public class WinSystemInfo : SystemInfo
     {
-        public override Dictionary<string, string> SystemInformation { get; }
+        public override ReadOnlyDictionary<string, string> SystemInformation { get; }
         public WinSystemInfo()
         {
-            SystemInformation = new Dictionary<string, string>() {
-        {"OS", OS},
-        {"Host", Host},
-        {"Kernel", Kernel},
-        {"Motherboard", Motherboard},
-        {"Uptime", Uptime},
-        {"Shell", Shell},
-        {"Res", Resolution},
-        {"Terminal", Terminal},
-        {"CPU", CPU},
-        {"GPU", GPU},
-        {"Memory", Memory},
-        {"Disk", Disk},
-        {"ColorBlock", ColorBlock}
-    };
+            SystemInformation = new ReadOnlyDictionary<string, string>(
+                new Dictionary<string, string>()
+                {
+                    {"OS", OS},
+                    {"Host", Host},
+                    {"Kernel", Kernel},
+                    {"Motherboard", Motherboard},
+                    {"Uptime", Uptime},
+                    {"Shell", Shell},
+                    {"Resolution", Resolution},
+                    {"Terminal", Terminal},
+                    {"CPU", CPU},
+                    {"GPU", GPU},
+                    {"Memory", Memory},
+                    {"Disk", Disk},
+                    {"ColorBlock", ColorBlock}
+                }
+            );
         }
-
-
 
         private Dictionary<string, string> MakeSystemManagementQuery(string ClassName, params string[] properties)
         {
@@ -119,29 +121,14 @@ namespace netfetch.Windows
 
             }
         }
-        public override Color LogoColor
-        {
-            get
-            {
-                return Color.DarkCyan;
-            }
-        }
+        public override Color LogoColor => Color.DarkCyan;
 
-        public override Color PrimaryColor
-        {
-            get
-            {
-                return Color.Goldenrod;
-            }
-        }
 
-        public override Color SecondaryColor
-        {
-            get
-            {
-                return Color.WhiteSmoke;
-            }
-        }
+        public override Color PrimaryColor => Color.Goldenrod;
+
+
+        public override Color SecondaryColor => Color.GhostWhite;
+
 
         private string Disk
         {
@@ -185,7 +172,7 @@ namespace netfetch.Windows
         {
             get
             {
-                return Environment.GetEnvironmentVariable("ComSpec")!;
+                return Environment.GetEnvironmentVariable("ComSpec") ?? "cmd.exe";
             }
         }
         private string Resolution
@@ -237,21 +224,10 @@ namespace netfetch.Windows
             }
         }
 
-        private string Kernel
-        {
-            get
-            {
-                return Environment.OSVersion.Version.ToString();
-            }
-        }
-        private string Host
-        {
-            get
-            {
-                return System.Environment.MachineName;
-            }
+        private string Kernel => Environment.OSVersion.Version.ToString();
 
-        }
+        private string Host => System.Environment.MachineName;
+
         private string OS
         {
             get
