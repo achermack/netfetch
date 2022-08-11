@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Drawing;
 using Pastel;
+
+
 namespace netfetch.util
 {
     public abstract class SystemInfo

@@ -172,7 +172,7 @@ namespace netfetch.Windows
         {
             get
             {
-                return Environment.GetEnvironmentVariable("ComSpec")!;
+                return Environment.GetEnvironmentVariable("ComSpec") ?? "cmd.exe";
             }
         }
         private string Resolution
